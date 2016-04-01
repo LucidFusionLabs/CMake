@@ -22,6 +22,7 @@
 #include "cmServerParser.h"
 #include "cmCommand.h"
 #include "cmServerCompleter.h"
+#include "cmComputeLinkInformation.h"
 
 #if defined(CMAKE_BUILD_WITH_CMAKE)
 # include "cm_jsoncpp_value.h"
@@ -407,6 +408,13 @@ void cmServerProtocol::ProcessTargetInfo(std::string tgtName,
     {
     target_includes.append(dir);
     }
+  
+  auto link_info = tgt->GetLinkInformation(config);
+  root["link_language"] = link_info->GetLinkLanguage();
+  Json::Value& out_link_libs = root["link_libraries"] = Json::arrayValue;
+  auto link_libs = tgt->GetLinkImplementationLibraries(config);
+  for (auto const& it : link_libs->Libraries) out_link_libs.append(it);
+
   this->Server->WriteResponse(obj);
 }
 
