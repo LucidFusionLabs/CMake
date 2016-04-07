@@ -385,7 +385,7 @@ void cmServerProtocol::ProcessTargetInfo(std::string tgtName,
   Json::Value& target_features = root["compile_features"] = Json::arrayValue;
 
   std::vector<std::string> features;
-  tgt->GetCompileFeatures(cdefs, config);
+  tgt->GetCompileFeatures(features, config);
   for (auto const& feature : features)
     {
     target_features.append(feature);
@@ -394,7 +394,7 @@ void cmServerProtocol::ProcessTargetInfo(std::string tgtName,
   Json::Value& target_options = root["compile_options"] = Json::arrayValue;
 
   std::vector<std::string> options;
-  tgt->GetCompileOptions(cdefs, config, lang);
+  tgt->GetCompileOptions(options, config, lang);
   for (auto const& option : options)
     {
     target_options.append(option);
