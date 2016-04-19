@@ -766,6 +766,9 @@ if (LIBUV_LIBRARY
     cmServerProtocol.h
   )
   target_link_libraries(CMakeServerLib PUBLIC CMakeLib ${LIBUV_LIBRARY})
+  if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_libraries(CMakeServerLib PUBLIC -lpthread)
+  endif()
   target_include_directories(CMakeServerLib
     PUBLIC
       ${LIBUV_INCLUDE_DIR}
